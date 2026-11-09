@@ -17,7 +17,6 @@ namespace Sbl
         internal static ConfigEntry<int> BackgroundOpacity;
         internal static ConfigEntry<bool> TextShadow;
         internal static ConfigEntry<int> MaxLabelLength;
-        internal static ConfigEntry<bool> WaterTankSprites;
         internal static ConfigEntry<bool> BaySkins;
 
         private static bool _zh;
@@ -83,12 +82,6 @@ namespace Sbl
                 () => L("标签最大字数", "Max label length"),
                 (int?)4, (int?)16,
                 () => L("超过时自动截断。", "Longer input is truncated."),
-                false);
-
-            WaterTankSprites = cfg.Define(
-                "water_tank_sprites", true, general,
-                () => L("储水罐水位贴图", "Water tank level sprites"),
-                () => L("六档水位 + 液体颜色分层贴图。", "Six fill levels with liquid colours."),
                 false);
 
             BaySkins = cfg.Define(

@@ -86,7 +86,6 @@ faucet.SetContentWindow(window)
 | `GameItemElement.Validate` / `UpdateRectTransform` / `ResolveSpriteByName` / `HandleInnateModSprite` | 图标角标的绘制与刷新 |
 | `ItemContextHandler.TriggerButton` / `UpdateConditions` / `UpdateSelectButtonColor` | 右键菜单入口与可用性 |
 | `GameSlotInventory.Validate` / `GameGridInventory.Validate` | 容器内容变化时重画 |
-| `SpriteHelper.UpdateWaterContainerSprite` | 储水罐分层贴图 |
 
 **角标实现**：1.6.0 曾尝试把角标做成物品节点的子物体，实际完全不显示，已回退到
 **独立叠加层画布**（`Overlay.cs`）。文字阴影用"偏移一层的深色副本"实现，避免丢字。
@@ -197,8 +196,8 @@ audit 行给出的字段是本项目的判断依据：
    优先换成公开 API 或 `ModReflect` 提供的帮助方法。改完用 `mod-scan storage_bay_label` 验证。
 2. **实机验证程度不一**：`auto_uv_lamp` 的部分交互点、`module_solo_upgrade` 的整体流程
    仍标注为"待实机确认"，各模组 README 的"已知限制"一节为准。
-3. **与其他模组的重叠**：储水罐贴图与工坊「储水罐贴图优化」功能重叠；
-   改水龙头窗口的模组（如 FaucetFilter）与 `auto_uv_lamp` 会抢同一个内容窗口。
+3. **与其他模组的重叠**：改水龙头窗口的模组（如 FaucetFilter）与 `auto_uv_lamp` 会抢同一个内容窗口。
+   1.8.0 起已移除储水罐分层贴图，不再与工坊「储水罐贴图优化」冲突。
 4. **本地优先于工坊**：`Mods\<id>` 存在时工坊副本被忽略（官方设计），
    测试工坊版本必须把本地目录移出 `Mods\`。
 

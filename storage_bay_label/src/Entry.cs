@@ -27,13 +27,10 @@ public class StorageBayLabelMod : IMod
     {
         try { Sbl.Overlay.Reset(); } catch { }
 
-        bool tank = false;
         bool skin = false;
-        try { tank = Sbl.WaterTank.HasSpritesForLog(); } catch { }
         try { skin = Sbl.BaySkin.HasAnySkin(); } catch { }
 
-        SafeLog("enabled; waterTank=" + (tank ? "ok" : "missing")
-            + " baySkin=" + (skin ? "ok" : "missing"));
+        SafeLog("enabled; baySkin=" + (skin ? "ok" : "missing"));
     }
 
     public void OnDisable()

@@ -16,7 +16,7 @@
 | 模组 | ID | 版本 | 一句话说明 |
 |---|---|---|---|
 | [紫外灯水龙头](auto_uv_lamp/README.md) | `auto_uv_lamp` | 2.0.0 | 水龙头加一个紫外线灯槽位，装上即可把接出的水提纯为基础水（≈98%）并杀菌；拖出即恢复原版 |
-| [存储舱标签](storage_bay_label/README.md) | `storage_bay_label` | 1.7.1 | 右键给任意容器打自定义文字标签（悬停 + 图标角标），另含储水罐分层贴图与存储舱外观变体 |
+| [存储舱标签](storage_bay_label/README.md) | `storage_bay_label` | 1.8.0 | 右键给任意容器打自定义文字标签（悬停 + 图标角标），另含存储舱外观变体 |
 | [机器区供电布局](machine_power_layout/README.md) | `machine_power_layout` | 3.1.0 | 求解能量阵列的最优相邻摆位，最大化机器夜间回电覆盖，支持整体重排 |
 | [模组独自升级](module_solo_upgrade/README.md) | `module_solo_upgrade` | 3.5.0 | 新增「自学习模块编程台」设备：耗电为模组植入自学习词条并推进进度，博士处出售 |
 
@@ -138,7 +138,7 @@ ProbablyStolenMOD/
 | 本项目模组 | 参考的第三方模组 |
 |---|---|
 | `auto_uv_lamp` | 更好的水龙头（Faucet Filter）v1.4.5 — Henry Æveries |
-| `storage_bay_label` | 存储名称显示（StorageNameDisplay）v1.3.0 — Nexus `probablystolen/mods/273`；储水罐贴图优化 v1.1.7 — chiqingsan |
+| `storage_bay_label` | 存储名称显示（StorageNameDisplay）v1.3.0 — Nexus `probablystolen/mods/273` |
 | `machine_power_layout` | 智能排列 模组（ModuleSort）v0.16.0 — Power Layout；Smart Inventory Arrange v3.17.55 — xiepeixuan |
 | `module_solo_upgrade` | 水瓶打印机增强（BetterBottlePrinter）v2.0.7 — n1ght、好景不长；模组堆叠升级（ModuleStack）v1.4.1 — sdjybn；店铺助手（Shop Assist）v1.4.0 — loyce |
 
