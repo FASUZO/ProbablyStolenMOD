@@ -8,7 +8,7 @@
 <Manifest>
   <ID>machine_power_layout</ID>
   <Name>机器区供电布局</Name>
-  <Author>Power Layout</Author>
+  <Author>FASUZO</Author>
   <ModVersion>3.1.0</ModVersion>
   <Description>一键优化机器区供电：把能量阵列搬到最优相邻位，最大化机器夜间回电覆盖；也可整体重排机器。Hotkey triggers a solver run on the machine area grid.</Description>
   <GameVersions>
