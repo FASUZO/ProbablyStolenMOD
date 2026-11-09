@@ -151,6 +151,15 @@ if ([string]::IsNullOrWhiteSpace($Title))       { $Title = $manifest.Manifest.Na
 if ([string]::IsNullOrWhiteSpace($Description)) { $Description = $manifest.Manifest.Description }
 if ([string]::IsNullOrWhiteSpace($Title))       { $Title = $modId }
 
+# A per-mod BBCode description (tools\workshop-descriptions\<id>.txt) takes precedence
+# over the manifest's one-liner: the in-game Mods menu wants a short sentence, the
+# Workshop page wants headings and bullet lists.
+$bodyPath = Join-Path $repoRoot ("tools\workshop-descriptions\" + $modId + ".txt")
+if (Test-Path -LiteralPath $bodyPath) {
+    $body = (Get-Content -LiteralPath $bodyPath -Raw -Encoding UTF8).Trim()
+    if ($body) { $Description = $body }
+}
+
 # Shared Workshop footer (repo link + install steps). Kept in a UTF-8 file so this
 # script can stay ASCII-only: Windows PowerShell 5.1 misreads UTF-8 without a BOM.
 $footerPath = Join-Path $repoRoot "tools\workshop-description.txt"
@@ -161,8 +170,10 @@ if (Test-Path -LiteralPath $footerPath) {
         $Description = $Description.Trim() + "`r`n`r`n" + $footer
     }
 }
-# KeyValues values are single-line: escape the line breaks instead of writing them raw.
-$Description = $Description.Replace("`r`n", '\n').Replace("`n", '\n')
+# KeyValues stores the value verbatim: writing "\n" here reaches Steam as literal
+# backslash-n text, not a line break (verified via GetPublishedFileDetails). Fold the
+# text to one line and let BBCode blocks ([h1], [list], [hr]) provide the layout.
+$Description = ($Description -replace "[\r\n]+", " ") -replace "\s{2,}", " "
 
 $existingId = "0"
 $vdfPath = Join-Path $OutRoot ($modId + ".vdf")

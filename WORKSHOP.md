@@ -99,19 +99,37 @@ Pillow 在这里会错解它的 cmap，把「灯/水/标」等常用字渲染成
 - `publishedfileid` 填 `0` = **新建**条目；成功后 steamcmd 会把真实 ID 写回该文件，**务必保存**。
 - `visibility`：`0` 公开 / `1` 仅好友 / `2` 隐藏。**首次发布建议先 `2` 隐藏**，自己订阅验证无误后再改 `0`。
 
-### 简介里的 GitHub 链接
+### 简介的组成与排版
 
-每个条目的简介 = `manifest.xml` 的 `<Description>` + `tools/workshop-description.txt` 的内容，
-后者含 **GitHub 仓库链接**、安装步骤与反馈指引，`{url}` / `{id}` / `{version}` 会被自动替换：
+一个条目的简介由两段拼成：
+
+| 来源 | 内容 |
+|---|---|
+| `tools/workshop-descriptions/<mod_id>.txt` | 该模组自己的正文（标题、功能、用法、设置、注意事项）|
+| `tools/workshop-description.txt` | 所有模组共用的尾巴：安装步骤 + **GitHub 仓库链接** + 反馈指引 |
+
+后者的 `{url}` / `{id}` / `{version}` 会被自动替换。**改简介不要动 VDF**——改这两个文件再跑
+`make-workshop.ps1` 即可；换仓库地址用 `-RepoUrl` 覆盖。
+
+正文用 **BBCode** 排版，因为 KeyValues 不支持换行：
 
 ```
-源码、说明与更新日志：https://github.com/FASUZO/ProbablyStolenMOD
-
-安装：解压得到 auto_uv_lamp 文件夹，整个放进游戏的 Mods 目录，进游戏后到 Mods 菜单激活，然后重启一次游戏生效。
+[h1]紫外灯水龙头[/h1]
+给水龙头加一个紫外线灯槽位。装上即用，不用改任何设置。
+[b]怎么用[/b]
+[list]
+[*]双击水龙头打开窗口
+[*]把紫外线灯拖进槽位
+[/list]
+[hr][/hr]
+[b]链接[/b] ...
 ```
 
-因此**改简介不要改 VDF**——直接编辑 `tools/workshop-description.txt` 再跑一次 `make-workshop.ps1` 即可。
-换仓库地址时用 `-RepoUrl` 覆盖，或改脚本默认值。
+> ⚠️ **不要用 `\n` 表示换行**。VDF 的键值会被**原样**存到 Steam：
+> 写成 `"a\n\nb"` 得到的是字母 `\n` 而不是换行，页面上会显示成一坨
+> （本项目第一版就踩了这个坑）。脚本因此把正文压成**单行**，靠
+> `[h1]`、`[list]`、`[hr][/hr]` 这些块级标签来分段；验证方式是
+> `GetPublishedFileDetails` 的 `description` 字段里不应含反斜杠 `n`。
 
 执行：
 
