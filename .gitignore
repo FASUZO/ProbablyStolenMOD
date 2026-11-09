@@ -1,0 +1,30 @@
+# ---- 构建产物 ----
+[Bb]in/
+[Oo]bj/
+dist/
+*.user
+*.suo
+.vs/
+
+# ---- 游戏本体文件：一律不入库（版权 + 体积）----
+Assembly-CSharp*.dll
+0Harmony.dll
+DseCecil.dll
+UnityEngine*.dll
+Unity.*.dll
+Probably Stolen_Data/
+Probably Stolen.exe
+*.assets
+*.resource
+*.bundle
+
+# ---- 反编译 / 解包 / 参考模组产物 ----
+extracted/
+ref_mod/
+workshop/
+
+# ---- 系统杂项 ----
+Thumbs.db
+desktop.ini
+.DS_Store
+*.log

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Manifest>
+  <ID>auto_uv_lamp</ID>
+  <Name>紫外灯水龙头</Name>
+  <Author>Anonymous</Author>
+  <ModVersion>2.0.0</ModVersion>
+  <Description>给水龙头加一个紫外线灯槽位：双击水龙头打开窗口，把紫外线灯拖进槽位即装配，接出来的水会直接提纯为基础水（≈98%）并杀灭微生物；把灯拖出来即卸下，恢复原版的水。装配状态随存档保存，不需要改任何设置。</Description>
+  <GameVersions>
+    <Version>0.46D</Version>
+  </GameVersions>
+  <Prerequisites />
+  <Assemblies>
+    <Assembly>AutoUvLamp.dll</Assembly>
+  </Assemblies>
+  <Capabilities />
+</Manifest>

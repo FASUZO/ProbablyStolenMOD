@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Manifest>
+  <ID>storage_bay_label</ID>
+  <Name>存储舱标签</Name>
+  <Author>Anonymous</Author>
+  <ModVersion>1.7.1</ModVersion>
+  <Description>三部分功能：① 图标标签——右键任意「双击能打开窗口」的物品（存储舱、冰箱、酒架、储水罐、保险箱、补给箱、背包等），在菜单里点「标签」，输入最多 12 个字；标签会追加在悬停介绍的名称后面，并画在图标左下角，不改原名、随存档保存。② 储水罐贴图——六档水位 + 液体颜色的分层贴图，悬停仍显示精确容量。③ 存储舱外观贴图——三套变体。可配置角标位置/字号/底板透明度/文字阴影与适用范围。</Description>
+  <GameVersions>
+    <Version>0.46D</Version>
+  </GameVersions>
+  <Prerequisites />
+  <Assemblies>
+    <Assembly>StorageBayLabel.dll</Assembly>
+  </Assemblies>
+  <Capabilities>
+    <Capability>reflection-external</Capability>
+  </Capabilities>
+</Manifest>

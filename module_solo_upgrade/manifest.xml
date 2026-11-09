@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Manifest>
+  <ID>module_solo_upgrade</ID>
+  <!-- Shown in the Mods list. Chinese is fine for the UI: the mod swaps in an
+       ASCII name only while the ModLog prefix is built, because the F8 console
+       font (OfficeCodePro) has no CJK glyphs. -->
+  <Name>模组独自升级</Name>
+  <Author>WorkBuddy</Author>
+  <ModVersion>3.5.0</ModVersion>
+  <Description>新增「自学习模块编程台」：放入模组、装好电池，消耗电量即可为模组植入自学习词条，并一次次推进自学习进度。设备在博士（Dr. Jackson）处出售。</Description>
+  <GameVersions>
+    <Version>0.46D</Version>
+  </GameVersions>
+  <Prerequisites />
+  <Assemblies>
+    <Assembly>ModuleSoloUpgrade.dll</Assembly>
+  </Assemblies>
+  <Capabilities />
+</Manifest>
