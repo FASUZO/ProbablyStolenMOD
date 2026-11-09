@@ -61,8 +61,17 @@ if ($manifest.Manifest.Assemblies -and $manifest.Manifest.Assemblies.Assembly) {
 if ($assemblies.Count -eq 0) { throw "manifest.xml lists no <Assemblies> entry" }
 
 # --- stage a clean folder ---
+if (-not (Test-Path -LiteralPath $OutRoot)) { New-Item -ItemType Directory -Path $OutRoot -Force | Out-Null }
+$OutRoot = (Resolve-Path -LiteralPath $OutRoot).Path
 $dest = Join-Path $OutRoot $modId
-if (Test-Path -LiteralPath $dest) { Remove-Item -LiteralPath $dest -Recurse -Force }
+if (Test-Path -LiteralPath $dest) {
+    # Guarded delete: only a staging folder that sits directly under the staging root.
+    $parent = [System.IO.Path]::GetDirectoryName($dest)
+    if ($parent.TrimEnd('\') -ne $OutRoot.TrimEnd('\')) {
+        throw "refusing to delete a folder outside the staging root: $dest"
+    }
+    [System.IO.Directory]::Delete($dest, $true)
+}
 New-Item -ItemType Directory -Path $dest -Force | Out-Null
 $dest = (Resolve-Path -LiteralPath $dest).Path
 
