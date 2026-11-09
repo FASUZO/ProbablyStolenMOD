@@ -183,6 +183,14 @@ if (Test-Path -LiteralPath $vdfPath) {
         $existingId = $m.Matches[0].Groups[1].Value
         Write-Host ("[vdf] reusing publishedfileid {0} (this run UPDATES the existing item)" -f $existingId)
     }
+    # Never silently un-publish: keep the item's current visibility unless -Visibility was passed.
+    if (-not $PSBoundParameters.ContainsKey("Visibility")) {
+        $vm = Select-String -LiteralPath $vdfPath -Pattern '"visibility"\s+"([0-2])"' | Select-Object -First 1
+        if ($vm) {
+            $Visibility = [int]$vm.Matches[0].Groups[1].Value
+            Write-Host ("[vdf] keeping existing visibility {0} (pass -Visibility to change it)" -f $Visibility)
+        }
+    }
 }
 
 $vdfLines = @(

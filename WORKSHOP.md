@@ -162,8 +162,8 @@ D:\SteamCMD\steamcmd.exe +login <账号> +workshop_build_item "D:\Repository\Pro
 
 ## 七、已发布条目
 
-2026-11-10 00:35 由账号 `1404255349` 上传，四个条目当前均为 **隐藏（visibility=2）**，
-待游戏内验证后改为公开。
+2026-11-10 00:35 由账号 `1404255349` 上传，2026-11-10 00:56 四个条目均改为
+**公开（visibility=0）**并重新提交。
 
 | 模组 | PublishedFileID | 工坊链接 |
 |---|---|---|
