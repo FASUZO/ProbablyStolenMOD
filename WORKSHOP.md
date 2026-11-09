@@ -63,13 +63,16 @@ workshop\auto_uv_lamp.vdf     ← 描述文件，路径已填好
 
 ### 预览图
 
-四个模组各有一张 **512×512** 的 `preview.png`（29–32 KB），像素风、与游戏 UI 同配色，
+四个模组各有一张 **512×512** 的 `preview.png`（约 30–33 KB），像素风、与游戏 UI 同配色，
 由 `tools/make-previews.py` 生成，改了文案或配色可重新跑：
 
 ```powershell
 python tools\make-previews.py            # 四个全出
 python tools\make-previews.py auto_uv_lamp
 ```
+
+版式为「主图标 + 改前 / 改后对比条」：上半是放大的主体物件，下半左右各一格，
+左灰右亮、中间箭头，让缩略图在小尺寸下也能表达"装上之后变了什么"，而不只是"这是什么"。
 
 脚本用 `DengXian Bold` / `SimHei` 渲染中文标题——**不要改用 `msyhbd.ttc`**：
 Pillow 在这里会错解它的 cmap，把「灯/水/标」等常用字渲染成 `.notdef` 乱码。

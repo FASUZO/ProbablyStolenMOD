@@ -103,21 +103,26 @@ def draw_uv_lamp():
     return i
 
 
-def draw_label_crate():
-    """Storage crate with a paper tag on its front."""
+def draw_label_crate(has_label=True):
+    """Storage crate with (or without) a paper tag on its front."""
     i = Icon()
     i.frame(4, 8, 24, 20, GREY_D)
     # lid
     i.r(5, 9, 22, 3, GREY_M)
     i.r(5, 9, 22, 1, GREY_L)
-    # tag
-    i.r(9, 14, 14, 9, INK)
-    i.r(10, 15, 12, 7, BEIGE)
-    i.r(11, 16, 6, 1, GREY_M)
-    i.r(11, 18, 9, 1, GREY_M)
-    i.r(11, 20, 5, 1, GREY_M)
-    # tag string to the lid
-    i.r(15, 12, 1, 2, BEIGE_L)
+    if has_label:
+        # tag
+        i.r(9, 14, 14, 9, INK)
+        i.r(10, 15, 12, 7, BEIGE)
+        i.r(11, 16, 6, 1, GREY_M)
+        i.r(11, 18, 9, 1, GREY_M)
+        i.r(11, 20, 5, 1, GREY_M)
+        # tag string to the lid
+        i.r(15, 12, 1, 2, BEIGE_L)
+    else:
+        # bare front panel with a recessed handle
+        i.r(9, 15, 14, 8, (0x32, 0x36, 0x42))
+        i.r(13, 18, 6, 2, INK)
     # feet + side handle
     i.r(6, 28, 4, 2, GREY_M)
     i.r(22, 28, 4, 2, GREY_M)
@@ -194,6 +199,58 @@ def draw_chip_icon():
     return i
 
 
+# ---------------------------------------------------------------- before / after pairs
+# Each pair is drawn on the same grid as the hero icon, then rendered small.
+def mini_tap(stage):
+    """stage 0: plain tap with grey water. stage 1: UV tube fitted, violet water."""
+    i = Icon()
+    # side-on wall tap: vertical pipe, arm, spout, handle
+    i.r(5, 7, 4, 20, GREY_M)
+    i.r(9, 7, 11, 4, GREY_M)
+    i.r(16, 11, 4, 5, GREY_D)
+    i.r(7, 4, 6, 3, GREY_L)
+    if stage:
+        # UV tube clipped above the body
+        i.r(5, 1, 15, 2, (0x5B, 0x3F, 0x9C))
+        i.r(6, 1, 12, 1, (0xC9, 0xA6, 0xFF))
+        i.r(16, 16, 4, 12, (0x8B, 0x5C, 0xF0))
+        i.r(17, 17, 1, 10, (0xD9, 0xC2, 0xFF))
+    else:
+        i.r(16, 16, 4, 12, (0x59, 0x6A, 0x78))
+        i.r(17, 17, 1, 10, (0x7E, 0x91, 0xA0))
+    return i
+
+
+def mini_crate(stage):
+    return draw_label_crate(has_label=bool(stage))
+
+
+def mini_layout(stage):
+    """stage 0: cells scattered. stage 1: cells packed together and lit."""
+    i = Icon()
+    cells = [(7, 9), (15, 9), (7, 17), (15, 17)] if stage else [(5, 7), (21, 7), (5, 21), (21, 23)]
+    for x, y in cells:
+        i.frame(x, y, 9, 9, (0x2B, 0x2F, 0x3C))
+        i.r(x + 2, y + 2, 5, 5, (0xF0, 0xB4, 0x55) if stage else (0x5B, 0x60, 0x70))
+    if stage:
+        i.r(16, 12, 2, 2, (0xF0, 0xB4, 0x55))
+        i.r(16, 20, 2, 2, (0xF0, 0xB4, 0x55))
+    return i
+
+
+def mini_module(stage):
+    """stage 0: blank module. stage 1: self-learning bar filled."""
+    i = Icon()
+    i.frame(6, 9, 20, 14, (0x2B, 0x2F, 0x3C))
+    i.r(8, 12, 16, 3, INK)
+    i.r(9, 13, 3 if stage else 2, 1, (0x6D, 0xE3, 0xCC) if stage else (0x45, 0xA8, 0x98))
+    i.r(8, 17, 16, 4, (0x3A, 0x3F, 0x50))
+    if stage:
+        i.r(9, 18, 13, 2, (0xE0, 0xA2, 0x4C))
+        i.r(9, 18, 7, 2, (0xF3, 0xC0, 0x72))
+    return i
+
+
 # ---------------------------------------------------------------- composition
 def dither_burst(base, cx, cy, radius, colour, alpha=26, step=4):
     """Chequered halo: a soft glow that still reads as pixels, not a gradient."""
@@ -226,9 +283,35 @@ def text_shadow(d, xy, s, font, fill, shadow=SHADOW, off=2):
     d.text(xy, s, font=font, fill=fill + (255,))
 
 
+def draw_strip(img, d, accent, before, after, labels=("改前", "改后")):
+    """Two small cells with an arrow between: what the mod changes, at a glance."""
+    cell_w, cell_h, y = 120, 86, 210
+    gap = 36
+    total = cell_w * 2 + gap
+    x0 = (SIZE - total) // 2
+    xs = (x0, x0 + cell_w + gap)
+    f_lab = ImageFont.truetype(FONT_REG, 13)
+    for idx, (x, icon_factory) in enumerate(zip(xs, (before, after))):
+        live = idx == 1
+        d.rectangle([x, y, x + cell_w - 1, y + cell_h - 1], fill=(0x0F, 0x11, 0x16, 255),
+                    outline=(accent if live else (0x3A, 0x42, 0x56)) + (255,), width=1)
+        art = icon_factory().render(2)
+        img.alpha_composite(art, (x + (cell_w - art.width) // 2, y + 4))
+        col = accent if live else (0x6C, 0x74, 0x88)
+        w = d.textlength(labels[idx], font=f_lab)
+        d.text((x + (cell_w - w) / 2, y + 66), labels[idx], font=f_lab, fill=col + (255,))
+    ax0 = xs[0] + cell_w + 9
+    ax1 = xs[1] - 9
+    ay = y + cell_h // 2 - 4
+    d.line([(ax0, ay), (ax1 - 8, ay)], fill=(0x7C, 0x84, 0x98, 255), width=3)
+    d.polygon([(ax1, ay), (ax1 - 9, ay - 6), (ax1 - 9, ay + 6)],
+              fill=(0x7C, 0x84, 0x98, 255))
+
+
 def build(mod, out_path):
     cfg = CONFIG[mod]
     accent = cfg["accent"]
+    compare = cfg.get("layout") == "compare"
     img = Image.new("RGBA", (SIZE, SIZE), BG + (255,))
     d = ImageDraw.Draw(img)
 
@@ -255,12 +338,17 @@ def build(mod, out_path):
            cfg["tag"], font=f_small, fill=accent + (255,))
     d.line([(26, 46), (SIZE - 27, 46)], fill=(0x2A, 0x30, 0x3E, 255))
 
-    # hero
+    # hero: smaller when the before/after strip needs the room
     sprite = cfg["sprite"]()
-    k = cfg["scale"]
+    if compare:
+        k = max(2, min(cfg["scale"], 152 // cfg.get("grid_h", 32)))
+        zone_top, zone_h = 54, 152
+    else:
+        k = cfg["scale"]
+        zone_top, zone_h = 56, 250
     hero = sprite.render(k)
     hx = (SIZE - hero.width) // 2 + cfg.get("dx", 0)
-    hy = 56 + (250 - hero.height) // 2 + cfg.get("dy", 0)
+    hy = zone_top + (zone_h - hero.height) // 2 + cfg.get("dy", 0)
     dither_burst(img, hx + hero.width // 2, hy + hero.height // 2,
                  max(hero.width, hero.height) // 2 + 6, accent, cfg.get("glow", 20), step=2)
     # contact shadow: a short, low-contrast band right under the sprite
@@ -270,10 +358,12 @@ def build(mod, out_path):
     img.alpha_composite(sh, (hx + (hero.width - sw) // 2, hy + hero.height - 5))
     img.alpha_composite(hero, (hx, hy))
 
-    # optional side icons
-    extras = {"chip": draw_chip_icon, "grid": draw_grid_card}
-    for key, px_, py_, kk in cfg.get("extras", []):
-        img.alpha_composite(extras[key]().render(kk), (px_, py_))
+    if compare:
+        draw_strip(img, d, accent, cfg["before"], cfg["after"])
+    else:
+        extras = {"chip": draw_chip_icon, "grid": draw_grid_card}
+        for key, px_, py_, kk in cfg.get("extras", []):
+            img.alpha_composite(extras[key]().render(kk), (px_, py_))
 
     # title block
     f_title = ImageFont.truetype(FONT_BOLD, 36)
@@ -312,25 +402,32 @@ CONFIG = {
         title="紫外灯水龙头", sub="装灯即提纯 · 拖出即卸下",
         chips=["98% 基础水", "顺手杀菌", "随存档保存"],
         tag="WATER", id="auto_uv_lamp", ver="2.0.0",
+        layout="compare", grid_h=32,
+        before=lambda: mini_tap(0), after=lambda: mini_tap(1),
     ),
     "storage_bay_label": dict(
         sprite=draw_label_crate, scale=7, dx=0, dy=0, accent=(0xE2, 0xC0, 0x76), glow=18,
         title="存储舱标签", sub="给任意容器加一行自己的文字",
         chips=["右键打标签", "悬停 + 角标", "三套外观"],
         tag="LABEL", id="storage_bay_label", ver="1.7.1",
+        layout="compare", grid_h=32,
+        before=lambda: mini_crate(0), after=lambda: mini_crate(1),
     ),
     "machine_power_layout": dict(
-        sprite=draw_power_array, scale=7, dx=-58, dy=0, accent=(0xF0, 0xB4, 0x55), glow=20,
+        sprite=draw_power_array, scale=7, dx=0, dy=0, accent=(0xF0, 0xB4, 0x55), glow=20,
         title="机器区供电布局", sub="一键把能量阵列搬到最优相邻位",
         chips=["相邻覆盖最大", "夜间回电", "可整体重排"],
         tag="POWER", id="machine_power_layout", ver="3.1.0",
-        extras=[("grid", 318, 121, 5)],
+        layout="compare", grid_h=32,
+        before=lambda: mini_layout(0), after=lambda: mini_layout(1),
     ),
     "module_solo_upgrade": dict(
         sprite=draw_programmer, scale=7, dx=0, dy=0, accent=(0x6D, 0xE3, 0xCC), glow=20,
         title="模组独自升级", sub="耗电为模组植入自学习词条",
         chips=["自学习进度", "电池供电", "博士处出售"],
         tag="DEVICE", id="module_solo_upgrade", ver="3.5.0",
+        layout="compare", grid_h=48,
+        before=lambda: mini_module(0), after=lambda: mini_module(1),
     ),
 }
 
