@@ -67,6 +67,18 @@ build.bat "D:\Program Files (x86)\Steam\steamapps\common\Probably Stolen"
 
 ---
 
+## 发布到 Steam 创意工坊
+
+游戏内**没有**上传按钮。官方规定模组必须由作者用 `steamcmd` + `.vdf` 发布。完整步骤、包内容白名单、
+合规红线与排查表见 **[WORKSHOP.md](WORKSHOP.md)**；打包用：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File tools\make-workshop.ps1 -ModDir auto_uv_lamp
+```
+
+脚本只复制白名单文件（`manifest.xml`、`<Assemblies>` 内列出的 DLL、`Textures/`、`preview.png`），
+发现 `.bat`/`.ps1`/`.zip` 等会被扫描器拒绝的文件时直接中断，并生成填好路径的 `.vdf`。
+
 ## 仓库结构
 
 ```
@@ -82,7 +94,10 @@ ProbablyStolenMOD/
 ├─ storage_bay_label/
 ├─ machine_power_layout/
 ├─ module_solo_upgrade/
-├─ LICENSE                 # MIT（仅覆盖源码，见文末）
+├─ tools/
+│  └─ make-workshop.ps1    # 生成工坊上传目录 + .vdf（白名单 + 违规拦截）
+├─ WORKSHOP.md             # 发布到 Steam 创意工坊的完整流程
+├─ LICENSE                 # MIT（源码与自绘贴图）
 └─ README.md
 ```
 
@@ -94,7 +109,7 @@ ProbablyStolenMOD/
 
 - 版本号**三处必须一致**：`manifest.xml` 的 `<ModVersion>`、`*.csproj` 的 `<Version>`、该模组 `README.md` 中标注的版本。
 - 加载器只在启动时扫描与缓存清单，**改完必须重启游戏**才会生效。
-- 二进制只走 GitHub Releases，仓库保持纯源码；发布包命名 `PS-<mod_id>-<version>.zip`。
+- 二进制走 GitHub Releases；发布到创意工坊见 `WORKSHOP.md`（用 `steamcmd` + `.vdf`）。仓库本身保持纯源码。
 
 ---
 
