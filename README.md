@@ -113,6 +113,8 @@ ProbablyStolenMOD/
 │  ├─ workshop-descriptions/   # 每个模组的工坊简介正文（BBCode）
 │  └─ make-previews.py     # 重绘四个模组的 512×512 预览图
 ├─ WORKSHOP.md             # 发布到 Steam 创意工坊的完整流程
+├─ docs/
+│  └─ TECHNICAL.md         # 技术文档：加载器契约、各模组实现、调试与发布流水线
 ├─ LICENSE                 # MIT（源码与自绘贴图）
 └─ README.md
 ```
