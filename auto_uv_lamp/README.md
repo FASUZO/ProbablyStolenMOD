@@ -214,7 +214,7 @@ Get-Content "$env:USERPROFILE\AppData\LocalLow\Questing Goose Studio\Probably St
 
 ## 10. 尚未实机验证的点
 
-本机安全策略禁止调用编译器，因此**这份源码没有编译过**（签名已逐条核对）：
+源码已在本机 `dotnet build -c Release` 编译通过（0 错误 0 警告，签名另行逐条核对），但**尚未进游戏实机验证**，以下各点仍需跑一次确认：
 
 | 点 | 若不成立的表现 |
 |---|---|
@@ -224,3 +224,14 @@ Get-Content "$env:USERPROFILE\AppData\LocalLow\Questing Goose Studio\Probably St
 | 提纯后纯度是否真到 98% | 日志里 `faucet boost` 那一行的 `purity ... -> ...` 不到 98，说明瓶里有 `PurifyToBaseWater` 不处理的特例成分 |
 
 编译报错请把输出贴回来，我按行修。
+
+---
+
+## 参考的第三方模组
+
+| 模组 | 作者 | 来源 | 参考了什么 |
+|---|---|---|---|
+| 更好的水龙头（Faucet Filter）v1.4.5 | Henry Æveries | Steam 创意工坊 `3833421581` | ① 确认「UV 灯并入原生 `HandleFilter` 过滤路径」这一做法可行——其说明明确写着行为等同于容器内直接装 `uv_filter`；② 其发布包附带的 `src` 与 DLL 给出了 `GameSlotInventory(5,1,false,false)`、`MachineHelper.Panel` / `CreateMachineryWindow` 的真实调用签名，本模组据此确定造窗口与造槽位的参数；③ 其社区反馈里记录的两类坑（只接收 `microbe` 类液体、需跳过酒类容器）写进了本模组的过滤判断。 |
+
+边界说明：本模组**独立重写**，未复制上述模组的任何源码文件；其 `src` 仅用于校对 API 签名与调用顺序。
+

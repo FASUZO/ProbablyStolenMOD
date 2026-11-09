@@ -98,14 +98,27 @@ ProbablyStolenMOD/
 
 ---
 
+## 第三方模组参考与致谢
+
+四个模组在开发时都读过现成模组，用来确认 API 用法、操作时序与设计取舍。**只参考思路与调用路径，未复制代码**；每个模组的具体参考点记录在其 `README.md` 末尾的「参考的第三方模组」一节。
+
+| 本项目模组 | 参考的第三方模组 |
+|---|---|
+| `auto_uv_lamp` | 更好的水龙头（Faucet Filter）v1.4.5 — Henry Æveries |
+| `storage_bay_label` | 存储名称显示（StorageNameDisplay）v1.3.0 — Nexus `probablystolen/mods/273`；储水罐贴图优化 v1.1.7 — chiqingsan |
+| `machine_power_layout` | 智能排列 模组（ModuleSort）v0.16.0 — Power Layout；Smart Inventory Arrange v3.17.55 — xiepeixuan |
+| `module_solo_upgrade` | 水瓶打印机增强（BetterBottlePrinter）v2.0.7 — n1ght、好景不长；模组堆叠升级（ModuleStack）v1.4.1 — sdjybn；店铺助手（Shop Assist）v1.4.0 — loyce |
+
+感谢以上作者的公开作品。若原作者对记录方式或表述有异议，指出后会立即修正。
+
 ## 免责声明与版权
 
 - 本项目与 Questing Goose Studio 无隶属关系，属于第三方非官方模组。
-- `Textures/` 下的 PNG 是在游戏原生美术基础上重绘/调色的**派生图**，仅为让模组在游戏内正确显示而随附；
-  其版权归原作者所有，不在 MIT 许可范围内，权利人提出要求即会移除。
+- `Textures/` 下的 PNG 均为本项目**自行绘制**的美术资源，与源码同为 MIT 许可，可随模组自由分发。
 - 仓库内**不包含**任何游戏本体文件（`Assembly-CSharp.dll`、`0Harmony.dll`、Unity 模块、`.assets`、解包贴图等）。
 - 使用模组可能影响存档，请自行备份存档目录后再启用。
 
 ## 许可
 
-源码采用 [MIT](LICENSE)。游戏美术派生资源除外，详见 LICENSE 末尾说明。
+源码与自绘贴图均采用 [MIT](LICENSE)。
+

@@ -21,11 +21,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 --------------------------------------------------------------------------------
-NOTE ON GAME ASSETS
+NOTE ON ARTWORK AND GAME ASSETS
 
-This license covers the mod source code only. "Probably Stolen" (深空当铺：可能是偷的)
-and all of its original artwork, sprites, audio and code are the property of
-Questing Goose Studio. PNG files under each mod's Textures/ folder are recolours
-or derivatives of in-game art, included solely so that the mod renders correctly
-in game. They are not licensed under the MIT terms above and will be removed
-promptly upon request from the rights holder.
+The PNG files under each mod's Textures/ folder are original artwork drawn for
+this project by its author. They are licensed under the MIT terms above, on the
+same basis as the source code.
+
+This repository does not redistribute any "Probably Stolen" (深空当铺：可能是偷的)
+game files. The projects reference the game's own assemblies at build time with
+Private="false", so no game DLL, asset bundle or extracted sprite is checked in,
+and builds do not copy game content into the output.
