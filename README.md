@@ -96,6 +96,7 @@ ProbablyStolenMOD/
 ├─ module_solo_upgrade/
 ├─ tools/
 │  ├─ make-workshop.ps1    # 生成工坊上传目录 + .vdf（白名单 + 违规拦截）
+│  ├─ workshop-description.txt # 工坊简介模板（含本仓库链接）
 │  └─ make-previews.py     # 重绘四个模组的 512×512 预览图
 ├─ WORKSHOP.md             # 发布到 Steam 创意工坊的完整流程
 ├─ LICENSE                 # MIT（源码与自绘贴图）

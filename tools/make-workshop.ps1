@@ -24,7 +24,8 @@ param(
     [string]$Title = "",
     [string]$Description = "",
     [string]$ChangeNote = "Initial release",
-    [string]$Preview = ""
+    [string]$Preview = "",
+    [string]$RepoUrl = "https://github.com/FASUZO/ProbablyStolenMOD"
 )
 
 $ErrorActionPreference = "Stop"
@@ -149,6 +150,19 @@ if ($problems.Count -gt 0) {
 if ([string]::IsNullOrWhiteSpace($Title))       { $Title = $manifest.Manifest.Name }
 if ([string]::IsNullOrWhiteSpace($Description)) { $Description = $manifest.Manifest.Description }
 if ([string]::IsNullOrWhiteSpace($Title))       { $Title = $modId }
+
+# Shared Workshop footer (repo link + install steps). Kept in a UTF-8 file so this
+# script can stay ASCII-only: Windows PowerShell 5.1 misreads UTF-8 without a BOM.
+$footerPath = Join-Path $repoRoot "tools\workshop-description.txt"
+if (Test-Path -LiteralPath $footerPath) {
+    $footer = (Get-Content -LiteralPath $footerPath -Raw -Encoding UTF8).Trim()
+    if ($footer) {
+        $footer = $footer.Replace("{url}", $RepoUrl).Replace("{id}", $modId).Replace("{version}", $modVersion)
+        $Description = $Description.Trim() + "`r`n`r`n" + $footer
+    }
+}
+# KeyValues values are single-line: escape the line breaks instead of writing them raw.
+$Description = $Description.Replace("`r`n", '\n').Replace("`n", '\n')
 
 $existingId = "0"
 $vdfPath = Join-Path $OutRoot ($modId + ".vdf")

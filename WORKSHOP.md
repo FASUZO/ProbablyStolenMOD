@@ -13,7 +13,8 @@
 
 ## 一、准备工具
 
-`steamcmd` 本机目前**未安装**：
+`steamcmd` 已安装在 `D:\SteamCMD\`（2026-11-10 完成自更新，并通过匿名登录自检）。
+换一台机器时：
 
 1. 下载 <https://developer.valvesoftware.com/wiki/SteamCMD>（Windows 版是个 zip），解压到固定目录，例如 `D:\SteamCMD`。
 2. 首次运行会自动更新自身：`D:\SteamCMD\steamcmd.exe`。
@@ -97,6 +98,20 @@ Pillow 在这里会错解它的 cmap，把「灯/水/标」等常用字渲染成
 
 - `publishedfileid` 填 `0` = **新建**条目；成功后 steamcmd 会把真实 ID 写回该文件，**务必保存**。
 - `visibility`：`0` 公开 / `1` 仅好友 / `2` 隐藏。**首次发布建议先 `2` 隐藏**，自己订阅验证无误后再改 `0`。
+
+### 简介里的 GitHub 链接
+
+每个条目的简介 = `manifest.xml` 的 `<Description>` + `tools/workshop-description.txt` 的内容，
+后者含 **GitHub 仓库链接**、安装步骤与反馈指引，`{url}` / `{id}` / `{version}` 会被自动替换：
+
+```
+源码、说明与更新日志：https://github.com/FASUZO/ProbablyStolenMOD
+
+安装：解压得到 auto_uv_lamp 文件夹，整个放进游戏的 Mods 目录，进游戏后到 Mods 菜单激活，然后重启一次游戏生效。
+```
+
+因此**改简介不要改 VDF**——直接编辑 `tools/workshop-description.txt` 再跑一次 `make-workshop.ps1` 即可。
+换仓库地址时用 `-RepoUrl` 覆盖，或改脚本默认值。
 
 执行：
 
