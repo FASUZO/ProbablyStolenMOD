@@ -22,6 +22,19 @@
 
 四个模组功能互不重叠，可同时启用；彼此没有硬依赖。
 
+## 创意工坊
+
+已发布到 Steam 创意工坊，订阅后在游戏内 Mods 菜单启用即可（订阅后需重启游戏）：
+
+| 模组 | 工坊条目 |
+|---|---|
+| 紫外灯水龙头 | <https://steamcommunity.com/sharedfiles/filedetails/?id=3836808928> |
+| 存储舱标签 | <https://steamcommunity.com/sharedfiles/filedetails/?id=3836809144> |
+| 机器区供电布局 | <https://steamcommunity.com/sharedfiles/filedetails/?id=3836809576> |
+| 模组独自升级 | <https://steamcommunity.com/sharedfiles/filedetails/?id=3836809720> |
+
+也可以不用工坊，直接下载 [Releases](../../releases) 里的 zip 手动安装，或按 `WORKSHOP.md` 自行构建上传。
+
 ---
 
 ## 安装（用现成包）

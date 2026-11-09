@@ -175,6 +175,18 @@ D:\SteamCMD\steamcmd.exe +login <账号> +workshop_build_item "D:\Repository\Pro
 隐藏期间匿名访问这些链接会得到「找不到项目」，属正常现象（`GetPublishedFileDetails` 返回 `result=9`）。
 条目 ID 已写回 `workshop\<id>.vdf`，后续更新会自动复用、不会重复建档。
 
+### 发布验证（2026-11-10）
+
+订阅 `module_solo_upgrade` 后确认完整链路可用：
+
+- 内容已下载到 `steamapps\workshop\content\4348910\3836809720\`（manifest + DLL + Textures + preview）；
+- `appworkshop_4348910.acf` 有订阅登记；
+- `Player.log` 出现 `source=Workshop workshop=3836809720 owner=76561199012329263 running=True trust=Match`。
+
+注意：其余三个模组的本地 `Mods\<id>` 仍在，本地副本优先，日志里会显示 `source=Local workshop=0`。
+想验证它们的工坊副本，需先把本地目录移出 `Mods\`（**改名无效**，加载器按 manifest 的 ID 加载）。
+
+
 ### 改成公开
 
 **推荐：直接在网页改**——打开 <https://steamcommunity.com/my/workshopfiles/>，选中条目，
