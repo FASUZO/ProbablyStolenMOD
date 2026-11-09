@@ -142,8 +142,40 @@ D:\SteamCMD\steamcmd.exe +login <账号> +workshop_build_item "D:\Repository\Pro
 所以发布前要做的不是「声明它」，而是**把这两处改写成直连访问**（游戏内这几个成员的类型是明确的），
 改完用 F8 控制台 `mod-scan storage_bay_label` 确认不再出现 `reflection-external`。
 
-## 七、合规红线（均出自官方文档）
+## 七、已发布条目
 
+2026-11-10 00:35 由账号 `1404255349` 上传，四个条目当前均为 **隐藏（visibility=2）**，
+待游戏内验证后改为公开。
+
+| 模组 | PublishedFileID | 工坊链接 |
+|---|---|---|
+| 紫外灯水龙头 | `3836808928` | <https://steamcommunity.com/sharedfiles/filedetails/?id=3836808928> |
+| 存储舱标签 | `3836809144` | <https://steamcommunity.com/sharedfiles/filedetails/?id=3836809144> |
+| 机器区供电布局 | `3836809576` | <https://steamcommunity.com/sharedfiles/filedetails/?id=3836809576> |
+| 模组独自升级 | `3836809720` | <https://steamcommunity.com/sharedfiles/filedetails/?id=3836809720> |
+
+隐藏期间匿名访问这些链接会得到「找不到项目」，属正常现象（`GetPublishedFileDetails` 返回 `result=9`）。
+条目 ID 已写回 `workshop\<id>.vdf`，后续更新会自动复用、不会重复建档。
+
+### 改成公开
+
+**推荐：直接在网页改**——打开 <https://steamcommunity.com/my/workshopfiles/>，选中条目，
+把可见性从「隐藏」改为「公开」。不需要重新上传。
+
+用命令行改也可以，两步都要做（改本地 VDF → 重传生效）：
+
+```powershell
+# 1) 本地四个 VDF 的 visibility 由 2 改 0。PS 5.1 必须写无 BOM 的 UTF-8，否则 steamcmd 解析失败
+Get-ChildItem workshop\*.vdf | ForEach-Object {
+    $t = [System.IO.File]::ReadAllText($_.FullName) -replace '"visibility"(\s+)"2"', '"visibility"$1"0"'
+    [System.IO.File]::WriteAllText($_.FullName, $t, (New-Object System.Text.UTF8Encoding($false)))
+}
+
+# 2) 逐个重传，Steam 侧才会生效
+D:\SteamCMD\steamcmd.exe +login 1404255349 +workshop_build_item "D:\Repository\ProbablyStolenMOD\workshop\auto_uv_lamp.vdf" +quit
+```
+
+## 八、合规红线（均出自官方文档）
 - **能力扫描**：用了但没声明 → 激活被拒；声明了 → 玩家激活前会看到提示。自查命令 `mod-scan <mod_id>`。
 - **`files` / `network` 需开发者验证**：2026-12-10 起，工坊模组若声明这两项，必须先进开发者的签名白名单
   （仓库里的 `trust-list.json`），否则无法激活。申请方式是到社区 modding 频道提供工坊条目与被读写/联网的对象。
@@ -153,7 +185,7 @@ D:\SteamCMD\steamcmd.exe +login <账号> +workshop_build_item "D:\Repository\Pro
 - **不得用 `Harmony.UnpatchAll(null)`**。
 - 玩家首次打开 Mods 菜单会被告知「模组可能含代码」——行为不端的模组会损害整个社区的口碑。
 
-## 八、排查
+## 九、排查
 
 | 现象 | 原因 |
 |---|---|
