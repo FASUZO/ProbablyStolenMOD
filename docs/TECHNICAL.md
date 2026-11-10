@@ -130,6 +130,13 @@ ModHook.OnCreateTooltipLate // 在物品悬浮框里追加"净耗电 ±N/天"
 **要点**：设备注册进 `PreBuiltItemHelper.preBuiltItems`，`ModHelper.SpawnItem` 优先查这里；
 自学习进度写 `modData`；一次只处理模块格里的第一件模组（原版限制）。
 
+**界面上的电量显示（3.6.0）**：按钮标题与悬停提示由 `DeviceUi` 维护，数据来自
+`DeviceLogic.Predict()` —— 一个与 `Implant`/`Learn` 同规则但**不写任何状态**的只读镜像。
+之所以不在创建时算一次就完，是因为"学习"的扣费按 `PowerCost × min(StepPerUse, 剩余缺口)`
+计算，接近满级时会自然变小；插拔模组或电池也会改变结果。刷新由一个
+`DontDestroyOnLoad` 的 `UiDriver` 每 0.25 秒驱动；标题只在文本变化时通过
+`MachineryButton.SetText()` 写入（`text` 属性为只读）。
+
 ---
 
 ## 4. 状态与持久化

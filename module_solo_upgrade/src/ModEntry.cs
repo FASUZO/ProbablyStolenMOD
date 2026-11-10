@@ -113,6 +113,9 @@ namespace ModuleSoloUpgrade
                 // panel's generic "add item" list and save reconstruction all look
                 // the id up in PreBuiltItemHelper.preBuiltItems.
                 ItemRegistration.Ensure();
+                // The cost labels live on a timer-driven object, so it has to be
+                // created once per session; it no-ops while no device exists.
+                DeviceUi.EnsureDriver();
                 RegisterDebugButton("enable");
                 Log.Log("Enabled. Buy the programmer from the Doctor. Dev copy: F9 > Spawn > Self-Learning Programmer (Grant).");
             }

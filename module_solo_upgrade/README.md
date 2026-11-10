@@ -3,7 +3,7 @@
 给 **Probably Stolen**（深空当铺）加一台新设备：**自学习模块编程台**。
 外形与操作逻辑都对齐游戏里的「瓶子打印机」：**电池槽 + 模块槽 + 两个按钮**。
 
-- 模组版本：`3.5.0`
+- 模组版本：`3.6.0`
 - 目标游戏版本：`0.46D`（以 `Player.log` 里 `[ModLoader] audit: game …` 为准）
 - 模组 ID：`module_solo_upgrade`（安装目录与存档标记都以它为准，不要改）
 
@@ -13,8 +13,13 @@
 
 | 按钮 | 作用 | 代价 |
 |---|---|---|
-| **植入自学习** | 给模块装上游戏原生的「自学习算法」词条 | 一次电量 |
-| **自学习 +1** | 推进一次自学习进度（相当于模组被正常使用一次） | 一次电量 |
+| **植入自学习** | 给模块装上游戏原生的「自学习算法」词条 | 10 点电量 |
+| **自学习 +N** | 推进 N 步自学习进度（相当于模组被正常使用 N 次） | 10 点 × N |
+
+> 按钮上显示的是**下一次点击实际会扣掉的电量**，不是固定值：推进步数会被模块剩余的
+> 成长空间截断（接近满级时只推 1 步就只扣 10），条件不满足时（缺模组、两个词条槽已满、
+> 无可学加成、电量不足）则不显示数字。悬停提示里同时给出电池剩余电量，插拔模组或电池后
+> 数字会自动刷新，无需重开窗口。
 
 两个按钮都依赖游戏自己的 `ModuleEffectHelper`，不是本 mod 自己编的数值系统，所以**单次增益（+1）与 tooltip 文案都与原版一致**；上限默认也走原版算法（`base × 2`），只有把 `cap_mult` 调高时才会偏离。
 
@@ -243,6 +248,7 @@ build.bat "D:\你的\Probably Stolen 路径"
 | 植入词条 | `AddEffectToModule(…, MODULE_EFFECT_LEARNING_ALGORITHM)` + `InitLearningAlgo`（后者幂等） |
 | 推进一次 | `OnUsedLearningAlgo(module)` |
 | 电量 | `PowerHelper.CanDrawPowerSource` 先验证，确认词条真的写进去之后才 `DrawPowerSource` |
+| 按钮上的电量数字 | `DeviceLogic.Predict()` 是动作处理器的**只读镜像**（同样的截断与前置条件），`DeviceUi` 每 0.25 秒刷新一次标题与悬停提示；`MachineryButton.text` 是只读属性，必须用公开的 `SetText()`。改 `Learn()` 的扣费规则时务必同步 `Predict()`，否则显示值与实际扣除会漂移 |
 | 次数计数 | 自定义标签 `SELF_LEARN_USES_INT`，写入用 `Enable() + SetInt()` 再 `SyncModifiedState()` |
 | 读档钩子 | `GameItemFunc.onLoaded`（`PlayerStore.DecodeSaveItem` 会对每个重建的物品调用） |
 | 商店注入 | `[HarmonyPatch(typeof(TradeSheet), "GetGenericMedicalShop")]`（单重载、零参数） |

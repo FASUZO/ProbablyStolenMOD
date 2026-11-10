@@ -6,7 +6,7 @@
        font (OfficeCodePro) has no CJK glyphs. -->
   <Name>模组独自升级</Name>
   <Author>FASUZO</Author>
-  <ModVersion>3.5.0</ModVersion>
+  <ModVersion>3.6.0</ModVersion>
   <Description>新增「自学习模块编程台」：放入模组、装好电池，消耗电量即可为模组植入自学习词条，并一次次推进自学习进度。设备在博士（Dr. Jackson）处出售。</Description>
   <GameVersions>
     <Version>0.46D</Version>

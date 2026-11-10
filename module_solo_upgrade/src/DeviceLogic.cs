@@ -166,6 +166,59 @@ namespace ModuleSoloUpgrade
                              + " " + ProgressText(module));
         }
 
+        // ---------------------------------------------------------------- predict
+        // Read-only mirror of the two handlers above, used by the UI so the
+        // buttons can show what the NEXT press will actually cost. It writes no
+        // tags and charges nothing; the clamping rules must stay in sync with
+        // Learn() or the displayed number drifts from the real deduction.
+        internal static void Predict(GameItem device, out int implantCost, out int learnSteps,
+                                     out int learnCost, out int batteryPower, out bool hasBattery)
+        {
+            implantCost = 0;
+            learnSteps = 0;
+            learnCost = 0;
+            batteryPower = 0;
+            hasBattery = false;
+            if (device == null) return;
+
+            try
+            {
+                var battery = GetBattery(device);
+                if (battery != null)
+                {
+                    hasBattery = true;
+                    batteryPower = PowerHelper.CheckAvailablePower(battery);
+                }
+            }
+            catch (Exception ex)
+            {
+                ModEntry.Log.Warning("Power reading failed: " + ex.Message);
+            }
+
+            var module = GetModule(device);
+            if (module == null) return;
+
+            if (!HasLearning(module) && HasAnyBaseBonus(module) && !BothEffectSlotsUsed(module))
+                implantCost = ModEntry.PowerCost;
+
+            if (!HasLearning(module)) return;
+
+            var progress = ReadProgress(module);
+            if (progress.TotalMax <= 0 || progress.AtCap) return;
+
+            int need = Math.Max(
+                Math.Max(progress.MaxP - progress.CurP, progress.MaxE - progress.CurE),
+                progress.MaxQ - progress.CurQ);
+            if (need <= 0) return;
+
+            int steps = ModEntry.StepPerUse;
+            if (steps < 1) steps = 1;
+            if (steps > need) steps = need;
+
+            learnSteps = steps;
+            learnCost = ModEntry.PowerCost * steps;
+        }
+
         // --------------------------------------------------------------- helpers
         private static GameItem GetBattery(GameItem device)
         {

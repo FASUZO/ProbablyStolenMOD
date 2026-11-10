@@ -18,7 +18,7 @@
 | [紫外灯水龙头](auto_uv_lamp/README.md) | `auto_uv_lamp` | 2.0.0 | 水龙头加一个紫外线灯槽位，装上即可把接出的水提纯为基础水（≈98%）并杀菌；拖出即恢复原版 |
 | [存储舱标签](storage_bay_label/README.md) | `storage_bay_label` | 1.8.0 | 右键给任意容器打自定义文字标签（悬停 + 图标角标），另含存储舱外观变体 |
 | [机器区供电布局](machine_power_layout/README.md) | `machine_power_layout` | 3.1.0 | 求解能量阵列的最优相邻摆位，最大化机器夜间回电覆盖，支持整体重排 |
-| [模组独自升级](module_solo_upgrade/README.md) | `module_solo_upgrade` | 3.5.0 | 新增「自学习模块编程台」设备：耗电为模组植入自学习词条并推进进度，博士处出售 |
+| [模组独自升级](module_solo_upgrade/README.md) | `module_solo_upgrade` | 3.6.0 | 新增「自学习模块编程台」设备：耗电为模组植入自学习词条并推进进度，博士处出售 |
 
 四个模组功能互不重叠，可同时启用；彼此没有硬依赖。
 

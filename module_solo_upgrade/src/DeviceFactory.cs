@@ -106,6 +106,10 @@ namespace ModuleSoloUpgrade
             buttonImplant.SetCallback(() => DeviceLogic.Implant(machine));
             buttonLearn.SetCallback(() => DeviceLogic.Learn(machine));
 
+            // Let the UI layer keep the captions and tooltips showing the real
+            // cost of the next press (it is not a constant, see DeviceUi).
+            DeviceUi.Register(machine, buttonImplant, buttonLearn);
+
             // Official post-load hook: PlayerStore.DecodeSaveItem invokes
             // GameItemFunc.onLoaded for every item it rebuilds. Re-stamp the
             // marker here so a device restored from an older save still counts.
